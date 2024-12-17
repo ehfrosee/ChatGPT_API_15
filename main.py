@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from starlette.middleware.cors import CORSMiddleware
+
 from chunks import Chunk
 from pydantic import BaseModel
 from langchain_core.pydantic_v1 import BaseModel
@@ -17,6 +19,14 @@ class Item(BaseModel):
 # создаем объект приложения
 app = FastAPI()
 
+# настройки для работы запросов
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins="*",
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # функция обработки get запроса + декоратор
 @app.get("/")
